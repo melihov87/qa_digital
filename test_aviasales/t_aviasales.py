@@ -6,6 +6,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 
 
+# SLEEP В ЭТОМ ФАЙЛЕ НЕ НУЖЕН, ОН ДЛЯ ДЕМОНСТРАЦИИ ДЕЙСТВИЙ НА САЙТЕ
+
+
 driver = webdriver.Chrome()
 driver.get("https://www.aviasales.ru/")
 driver.maximize_window()
