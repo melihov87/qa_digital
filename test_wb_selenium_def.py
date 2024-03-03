@@ -2,7 +2,6 @@ import ssl
 
 ssl._create_default_https_context = ssl._create_unverified_context
 import pandas as pd
-from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
