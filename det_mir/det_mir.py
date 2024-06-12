@@ -12,7 +12,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from urllib.parse import urlparse
 from time import sleep
 
-
 chrome_options = Options()
 chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
 # chrome_options.add_argument("--headless")
@@ -41,7 +40,7 @@ def region_and_cookies():
 
 def footer_click_1():
     # Баннер в шапке
-    banner_footer = driver.find_element(By.XPATH, '//div[@class="rg fx"]')
+    banner_footer = wd.until(EC.element_to_be_clickable((By.XPATH, '//div[@class="rg fx"]')))
     banner_footer.click()
     driver.back()
 
@@ -100,9 +99,11 @@ def footer_click_1():
     sleep(5)
 
     # Продавать в Детском мире
-    sell_click = wd.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="app-container"]/div[1]/header/div[2]/div/div[1]/ul/li[4]/a')))
+    sell_click = wd.until(
+        EC.element_to_be_clickable((By.XPATH, '//*[@id="app-container"]/div[1]/header/div[2]/div/div[1]/ul/li[4]/a')))
     sell_click.click()
-    sell_click_info = wd.until(EC.element_to_be_clickable((By.XPATH, '//div[@class="t396__elem tn-elem tn-elem__4854365141661933876993"]'))).text
+    sell_click_info = wd.until(EC.element_to_be_clickable(
+        (By.XPATH, '//div[@class="t396__elem tn-elem tn-elem__4854365141661933876993"]'))).text
     expected_result_sell = 'Продавайте на маркетплейсе\nДетского мира'
     if sell_click_info == expected_result_sell:
         print('The page sell corresponds to')
@@ -114,7 +115,7 @@ def footer_click_1():
     # Клик по кнопке Еще и Обмен и возврат товара
     more_click = wd.until(EC.element_to_be_clickable((By.XPATH, '//div[@class="r_2"]')))
     action.click(more_click).pause(2).perform()
-    exchange_click = wd.until(EC.element_to_be_clickable((By.XPATH, '(//li[@class="tv tO tH tw ge gf s_7"])[1]')))
+    exchange_click = driver.find_element(By.XPATH, '(//li[@class="tv tO tH tw ge gf s_7"])[1]')
     exchange_click.click()
     exchange_click_text = driver.find_element(By.XPATH, '//h1[@class="x_1"]').text
     expected_result_exchange = 'Обмен и возврат товара'
@@ -180,7 +181,8 @@ def chat():
     check_chat_click = driver.find_element(By.XPATH, '//span[@class="el-checkbox__inner"]')
     check_chat_click.click()
     # Отправить сообщение
-    send_message_chat = driver.find_element(By.XPATH, '//button[@class="el-button custom-button-color el-button--info el-button--small is-plain"]')
+    send_message_chat = driver.find_element(By.XPATH,
+                                            '//button[@class="el-button custom-button-color el-button--info el-button--small is-plain"]')
     send_message_chat.click()
     # Закрыть чат
     close_chat = driver.find_element(By.XPATH, '//*[@id="widget-app"]/div[1]/i')
@@ -214,7 +216,8 @@ def footer_click_2():
     # Клик по Бонусной карте
     bonus_card_click = driver.find_element(By.XPATH, '(//a[@class="Qj rf q_8"])[1]')
     bonus_card_click.click()
-    bonus_card_text = driver.find_element(By.XPATH, '//div[@class="t396__elem tn-elem tn-elem__5201800701669649091017"]').text
+    bonus_card_text = driver.find_element(By.XPATH,
+                                          '//div[@class="t396__elem tn-elem tn-elem__5201800701669649091017"]').text
     expected_result_bonus_card = 'С бонусной картой выгоднее'
     if bonus_card_text == expected_result_bonus_card:
         print('The page bonus card corresponds to')
@@ -474,12 +477,11 @@ def category_menu_3():
     driver.back()
     sleep(3)
 
-    try:
-        close_window_stock = wd.until(EC.element_to_be_clickable((By.XPATH, '(//button[@class="close"])[1]')))
-        if close_window_stock.is_displayed():
-            close_window_stock.click()
-    except NoSuchElementException:
-        print("Close button not found")
+    driver.switch_to.frame(driver.find_element(By.ID, 'fl-623661'))
+    close_window_stock = wd.until(EC.element_to_be_clickable((By.XPATH, '(//button[@class="close"])[1]')))
+    if close_window_stock.is_displayed():
+        close_window_stock.click()
+    switching_iframe()
 
     sleep(3)
     more_menu_move()
@@ -518,4 +520,3 @@ def start():
 
 
 start()
-
