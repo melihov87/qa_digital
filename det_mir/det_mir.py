@@ -115,7 +115,7 @@ def footer_click_1():
     # Клик по кнопке Еще и Обмен и возврат товара
     more_click = wd.until(EC.element_to_be_clickable((By.XPATH, '//div[@class="r_2"]')))
     action.click(more_click).pause(2).perform()
-    exchange_click = driver.find_element(By.XPATH, '(//li[@class="tv tO tH tw ge gf s_7"])[1]')
+    exchange_click = driver.find_element(By.XPATH, '(//a[@rel="nofollow"])[5]')
     exchange_click.click()
     exchange_click_text = driver.find_element(By.XPATH, '//h1[@class="x_1"]').text
     expected_result_exchange = 'Обмен и возврат товара'
@@ -128,7 +128,7 @@ def footer_click_1():
     # Клик по кнопке Еще и Обратная связь
     more_click = wd.until(EC.element_to_be_clickable((By.XPATH, '//div[@class="r_2"]')))
     action.click(more_click).pause(2).perform()
-    feedback_click = driver.find_element(By.XPATH, '(//li[@class="tv tO tH tw ge gf s_7"])[2]')
+    feedback_click = wd.until(EC.element_to_be_clickable((By.XPATH, '(//li[@class="tv tO tH tw ge gf s_7"])[2]')))
     feedback_click.click()
     feedback_click_text = driver.find_element(By.XPATH, '//h1[@class="x_1"]').text
     expected_result_feedback = 'Обратная связь'
@@ -477,11 +477,7 @@ def category_menu_3():
     driver.back()
     sleep(3)
 
-    driver.switch_to.frame(driver.find_element(By.ID, 'fl-623661'))
-    close_window_stock = wd.until(EC.element_to_be_clickable((By.XPATH, '(//button[@class="close"])[1]')))
-    if close_window_stock.is_displayed():
-        close_window_stock.click()
-    switching_iframe()
+    driver.refresh()
 
     sleep(3)
     more_menu_move()
