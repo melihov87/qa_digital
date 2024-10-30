@@ -11,7 +11,6 @@ def count_time(func):
         stop = time.time()
         print(f'END + {func.__name__}')
         result_time = stop - start
-        # time_func = round(result_time)
         print(f'Function execution time: {result_time:.6f} seconds')
         return result
     return wrapper
