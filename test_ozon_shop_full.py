@@ -11,8 +11,17 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from  datetime import datetime
 
+# options = uc.ChromeOptions()
+# options.add_argument("--disable-blink-features=AutomationControlled")
+# options.add_argument("--headless=new")
+# options.add_argument("--disable-gpu")
+# options.add_argument("--no-sandbox")
+#
+# driver = uc.Chrome(options=options)
 
+start_test = datetime.now()
 driver = uc.Chrome()
 driver.get("https://www.ozon.ru/")
 driver.maximize_window()
@@ -21,7 +30,7 @@ driver.maximize_window()
 # Куки ОК
 try:
     cookies_ozon = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.XPATH, '//*[@id="layoutPage"]/div[2]/div/div/div/button'))
+        EC.element_to_be_clickable((By.CLASS_NAME, 'gd1_11.b2122-a0.b2122-b5.b2122-a4'))
     )
     cookies_ozon.click()
     print('1) Куки ОК')
@@ -30,20 +39,25 @@ except TimeoutException:
 
 # Нажимаю "Войти"
 enter_account = WebDriverWait(driver, 10).until(
-    EC.element_to_be_clickable((By.XPATH, '//*[@id="stickyHeader"]/div[3]/div[1]'))
+    EC.element_to_be_clickable((By.CLASS_NAME, 'qca4_48.c20-a.c20-a1'))
 )
 enter_account.click()
 print('2) Окно регистрации открыто')
 
+enter_account2 = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.CLASS_NAME, 'cn1a_48.b2122-a0.b2122-b1.b2122-a4'))
+)
+enter_account2.click()
+
 # Закрываю окно "Войти"
 close_account = WebDriverWait(driver, 10).until(
-    EC.element_to_be_clickable((By.XPATH, "/html/body/div[3]/div/div[2]/div/div/button"))
+    EC.element_to_be_clickable((By.CLASS_NAME, 'b6026-b1.b6026-a7.ag023-a0.ag023-a5.ag023-a2'))
 )
 close_account.click()
 print('3) Окно регистрации закрыто')
 
 # Нажимаю на "Заказы"
-open_orders = driver.find_element(By.XPATH, '//*[@href="/my/orderlist"]')
+open_orders = driver.find_element(By.CLASS_NAME, 'm0_16.b7124-a.b7124-a5.tsBodyControl500Medium')
 open_orders.click()
 print('4) Окно заказов открыто')
 
@@ -92,22 +106,18 @@ print('13) Первая вкладка активна')
 driver.execute_script("window.scrollTo(0, -document.body.scrollHeight);")
 print('14) Прокрутка вверх выполнена')
 
-# Нажимаю на кнопку "RUB"
-currency = driver.find_element(By.CSS_SELECTOR, '[data-widget="selectedCurrency"]')
-currency.click()
-print('15) Окно валют открыто')
-
-# Закрываю окно "RUB"
-currency_close = driver.find_element(By.XPATH, "/html/body/div[3]/div/div[2]/div/div/button")
-currency_close.click()
-print('16) Окно валют закрыто')
-
 # Нажимаю на кнопку "Везде"
 everywhere = driver.find_element(By.CSS_SELECTOR, "span[title='Везде']")
 everywhere.click()
+sleep(2)
 print('17) Окно выбора места поиска открыто')
 
 # Закрываю окно "Везде"
-driver.press_and_release('esc')
+close_search = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.CLASS_NAME, 'b6026-b1.b6026-a7.ag023-a0.ag023-a5.ag023-a2'))
+)
+close_search.click()
 print('18) Окно выбора места поиска закрыто')
 print('19) ТЕСТ ВЫПОЛНЕН!')
+stop_test = datetime.now()
+print(stop_test - start_test)
